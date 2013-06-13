@@ -1,0 +1,99 @@
+[Version]
+Signature=$CHICAGO$
+Class=Souri
+ClassGuid={350565C5-6E77-4414-A3FD-D73D1760888A}
+Provider=%MFGNAME%
+DriverVer=02/02/2012,1.1
+
+[Manufacturer]
+%MFGNAME%=DeviceList
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+
+[SourceDisksFiles]
+mwdm.sys=1,objchk_wxp_x86\i386
+
+[SourceDisksNames]
+1=%INSTDISK%,,,.
+
+[DeviceList]
+%DESCRIPTION%=DriverInstall,*WCO0301
+
+[ClassInstall32] 
+AddReg=display_class_addreg
+ 
+[display_class_addreg]
+HKR,,,,Souri
+HKR,,Installer32,,"Desk.Cpl,DisplayClassInstaller"
+HKR,,Icon,,"-1"
+
+
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+mwdm.sys,,,2
+
+[DriverInstall.NT.Services]
+AddService=mwdm,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\mwdm.sys
+
+[DriverInstall.nt.hw]
+AddReg=DriverHwAddReg
+
+[DriverHwAddReg]
+HKR,,SampleInfo,,"%wdmbook%\chap3\fileio\fileio.htm"
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall]
+AddReg=DriverAddReg
+CopyFiles=DriverCopyFiles
+
+[DriverAddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,mwdm.sys
+
+[DriverInstall.hw]
+AddReg=DriverHwAddReg
+
+;+
+; Add our service - WinNT
+;-
+ 
+[mwdm.NT.Services]
+AddService = mwdm, 0x00000002, Add-Service
+ 
+;+
+; Describe the service
+;-
+ 
+[Add-Service]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND
+ErrorControl   = 1             ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %11%\Drivers\mwdm.sys
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME="Souri"
+DisplayClassName="Souri"
+INSTDISK="WDM Book Companion Disc"
+DESCRIPTION="mwdm driver"

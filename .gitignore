@@ -1,0 +1,4 @@
+*.pdb
+*.obj
+*.idb
+Dbgview.exe
